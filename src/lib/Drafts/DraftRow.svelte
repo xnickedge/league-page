@@ -7,11 +7,9 @@
     :global(.draftCell) {
         position: relative;
     }
-
     :global(.changedHands) {
         background-color: #f8fcff;
     }
-
     .draftPos {
         position: absolute;
         top: 0.3em;
@@ -19,7 +17,6 @@
         font-style: italic;
         color: #aaa;
     }
-
     .draftPosPrev {
         position: absolute;
         top: 0.1em;
@@ -27,38 +24,31 @@
         font-style: italic;
         color: #444;
     }
-
     .newOwner {
         font-style: italic;
         color: #444;
         text-align: center;
         white-space: break-spaces;
+        line-height: 1.2em;
     }
-
 	:global(.prevQB) {
 		background-color: #ff8fb2;
 	}
-
 	:global(.prevWR) {
 		background-color: #afd4ff;
 	}
-
 	:global(.prevRB) {
 		background-color: #6ccac1;
 	}
-
 	:global(.prevTE) {
 		background-color: #ffd6aa;
 	}
-
 	:global(.prevK) {
 		background-color: #deb4ff;
 	}
-
 	:global(.prevDEF) {
 		background-color: #fffbbc;
 	}
-
 	.playerAvatar {
 		display: inline-block;
         position: absolute;
@@ -72,7 +62,6 @@
 		background-repeat: no-repeat;
 		background-size: auto 25px;
 	}
-
     .name {
         display: block;
         width: 100%;
@@ -87,18 +76,20 @@
 
 <Row>
     {#each draftRow as draftCol, col}
-        <Cell class="draftCell{draftCol ? ' changedHands' : ''}{previous ? ` prev${draftCol.player.position}` : ''}">
-            <span class="draftPos{previous ? "Prev" : ""}">
-                {row}.{draftType == "snake" && row%2 == 0 ? draftRow.length - col : col + 1}{draftCol?.newOwner ? ` ${draftCol.newOwner}` : ''}
-            </span>
-            {#if draftCol && !previous}
-                <div class="newOwner">{draftCol}</div>
-            {/if}
-            {#if previous}
-                <div class="playerAvatar" style="{draftCol.player.avatar}" />
-                <br />
-                <div class="name">{draftCol.player.name}{draftCol.player.position == "DEF" ? "" : ` (${draftCol.player.team})`}</div>
-            {/if}
-        </Cell>
+        {#if !previous || draftCol}
+            <Cell class="draftCell{draftCol ? ' changedHands' : ''}{previous ? ` prev${draftCol.player.position}` : ''}">
+                <span class="draftPos{previous ? "Prev" : ""}">
+                    {row}.{draftType == "snake" && row%2 == 0 ? draftRow.length - col : col + 1}{draftCol?.newOwner ? ` ${draftCol.newOwner}` : ''}
+                </span>
+                {#if draftCol && !previous}
+                    <div class="newOwner">{draftCol}</div>
+                {/if}
+                {#if previous}
+                    <div class="playerAvatar" style="{draftCol.player.avatar}" />
+                    <br />
+                    <div class="name">{draftCol.player.name}{draftCol.player.position == "DEF" ? "" : ` (${draftCol.player.team})`}</div>
+                {/if}
+            </Cell>
+        {/if}
     {/each}
 </Row>
