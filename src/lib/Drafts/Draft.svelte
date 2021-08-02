@@ -6,15 +6,10 @@
     import { cleanName } from '$lib/utils/helper'
     
     export let draftData, previous = false;
-
     const {draftOrder, draft, currentManagers, originalManagers, accuracy, draftType} = draftData;
- 
-
     let progress = 0;
     let closed = false;
-
     onMount(loadAccuracy);
-
     function loadAccuracy() {
         if(!accuracy) return;
         let timer;
@@ -30,7 +25,6 @@
                     closed = true;
                 }
             }
-
         }, 100);
     }
 </script>
@@ -42,24 +36,20 @@
         max-width: 800px;
         margin: 2em auto 3em;
     }
-
     .accuracyText {
         font-size: 0.7em;
         color: #666;
     }
-
     .disclaimer {
         font-style: italic;
         color: #888;
     }
-
     :global(.draftBoard) {
         display: block;
         width: 95%;
         margin: 2em auto 3em;
         overflow-x: auto;
     }
-
 	:global(.draftTeam) {
         font-size: 0.8em;
 		text-align: center;
@@ -70,24 +60,20 @@
         height: 5em;
         vertical-align: initial;
 	}
-
 	:global(.draftBoard table) {
         border-collapse: collapse;
         table-layout: fixed;
         width: 100%;
         min-width: 1200px;
 	}
-
     :global(.draftBoard td) {
         border-right: 1px solid #ddd;
         height: 7em;
         font-size: 0.7em;
     }
-
     :global(.draftBoard td:last-of-type) {
         border-right: none;
     }
-
 	.avatar {
 		border-radius: 50%;
         height: 30px;
@@ -117,10 +103,12 @@
     <Head>
         <Row>
             {#each draftOrder as draftPosition}
-                <Cell class="draftTeam">
-                    <img class="avatar" src="{originalManagers[draftPosition].avatar}" alt="{originalManagers[draftPosition].name} avatar"/>
-                    <br />{originalManagers[draftPosition].name}{@html currentManagers && cleanName(currentManagers[draftPosition].name) != cleanName(originalManagers[draftPosition].name) ? `<br /><span class="curDraftName">(${currentManagers[draftPosition].name})</span>` : ''}
-                </Cell>
+                {#if draftPosition}
+                    <Cell class="draftTeam">
+                        <img class="avatar" src="{originalManagers[draftPosition].avatar}" alt="{originalManagers[draftPosition].name} avatar"/>
+                        <br />{originalManagers[draftPosition].name}{@html currentManagers && cleanName(currentManagers[draftPosition].name) != cleanName(originalManagers[draftPosition].name) ? `<br /><span class="curDraftName">(${currentManagers[draftPosition].name})</span>` : ''}
+                    </Cell>
+                {/if}
             {/each}
         </Row>
     </Head>
@@ -130,4 +118,3 @@
         {/each}
     </Body>
 </DataTable>
-
